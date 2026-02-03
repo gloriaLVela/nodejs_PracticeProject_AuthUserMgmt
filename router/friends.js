@@ -31,7 +31,9 @@ router.post("/", (req, res) => {
         friends[req.body.email] = {
             "firstName": req.body.firstName,
             // Add similarly for lastName
+            "lastName" : req.body.lastName,
             // Add similarly for DOB
+            "DOB": req.body.DOB,
         };
     }
     // Send response indicating user addition
@@ -41,8 +43,25 @@ router.post("/", (req, res) => {
 
 // PUT request: Update the details of a friend with email id
 router.put("/:email", (req, res) => {
-    // Update the code here
-    res.send("Yet to be implemented")//This line is to be replaced with actual return value
+    // Extract email parameter from request URL
+    const email = req.params.email;
+    let friend = friends[email];  // Retrieve friend object associated with email
+    if (friend) {  // Check if friend exists
+        let DOB = req.body.DOB;
+        // Add similarly for firstName
+        // Add similarly for lastName
+        // Update DOB if provided in request body
+        if (DOB) {
+            friend["DOB"] = DOB;
+        }
+        // Add similarly for firstName
+        // Add similarly for lastName
+        friends[email] = friend;  // Update friend details in 'friends' object
+        res.send(`Friend with the email ${email} updated.`);
+    } else {
+        // Respond if friend with specified email is not found
+        res.send("Unable to find friend!");
+    }
 });
 
 
