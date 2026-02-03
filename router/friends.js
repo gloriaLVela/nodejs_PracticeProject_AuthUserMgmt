@@ -47,15 +47,23 @@ router.put("/:email", (req, res) => {
     const email = req.params.email;
     let friend = friends[email];  // Retrieve friend object associated with email
     if (friend) {  // Check if friend exists
-        let DOB = req.body.DOB;
+        
         // Add similarly for firstName
+        let firstName = req.body.firstName;
+        if (firstName){
+            friend["firstName"] = firstName;
+        }
         // Add similarly for lastName
+        let lastName = req.body.lastName;
+        if (lastName){
+            friend["lastName"] = lastName;
+        }
         // Update DOB if provided in request body
+        let DOB = req.body.DOB;
         if (DOB) {
             friend["DOB"] = DOB;
         }
-        // Add similarly for firstName
-        // Add similarly for lastName
+        
         friends[email] = friend;  // Update friend details in 'friends' object
         res.send(`Friend with the email ${email} updated.`);
     } else {
