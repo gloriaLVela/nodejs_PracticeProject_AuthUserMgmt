@@ -19,7 +19,13 @@ router.get("/", (req, res) => {
 // GET by specific ID request: Retrieve a single friend with email ID
 router.get("/:email", (req, res) => {
     // Update the code here
-    res.send("Yet to be implemented")//This line is to be replaced with actual return value
+    //res.send("Yet to be implemented")//This line is to be replaced with actual return value
+    const friend = friends[req.params.email];
+    if (friend) {
+        res.send(JSON.stringify(friend, null, 4));
+    } else {
+        res.send("Friend not found!");
+    }
 });
 
 
@@ -31,7 +37,7 @@ router.post("/", (req, res) => {
         friends[req.body.email] = {
             "firstName": req.body.firstName,
             // Add similarly for lastName
-            "lastName" : req.body.lastName,
+            "lastName": req.body.lastName,
             // Add similarly for DOB
             "DOB": req.body.DOB,
         };
@@ -47,15 +53,15 @@ router.put("/:email", (req, res) => {
     const email = req.params.email;
     let friend = friends[email];  // Retrieve friend object associated with email
     if (friend) {  // Check if friend exists
-        
+
         // Add similarly for firstName
         let firstName = req.body.firstName;
-        if (firstName){
+        if (firstName) {
             friend["firstName"] = firstName;
         }
         // Add similarly for lastName
         let lastName = req.body.lastName;
-        if (lastName){
+        if (lastName) {
             friend["lastName"] = lastName;
         }
         // Update DOB if provided in request body
@@ -63,7 +69,7 @@ router.put("/:email", (req, res) => {
         if (DOB) {
             friend["DOB"] = DOB;
         }
-        
+
         friends[email] = friend;  // Update friend details in 'friends' object
         res.send(`Friend with the email ${email} updated.`);
     } else {
@@ -81,7 +87,7 @@ router.delete("/:email", (req, res) => {
         // Delete friend from 'friends' object based on provided email
         delete friends[email];
     }
-    
+
     // Send response confirming deletion of friend
     res.send(`Friend with the email ${email} deleted.`);
 });
